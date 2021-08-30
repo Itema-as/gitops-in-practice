@@ -8,7 +8,18 @@ kubectl apply -n argocd -f \
   https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-Du må også [installere kommandolinjeverktøyet til Argo CD](https://argo-cd.readthedocs.io/en/stable/cli_installation/). Her er tilnærmingen litt forskjellig alt etter hvilket operativsystem man kjører.
+Du må også [installere kommandolinjeverktøyet til Argo CD](https://argo-cd.readthedocs.io/en/stable/cli_installation/). Her er tilnærmingen litt forskjellig alt etter hvilket operativsystem man kjører. Dette kan du gjøre mens Argo CD starter opp på klyngen, noe som kan ta litt tid. For å sjekke statusen på poddene kan du utføre `kubectl get pods -n argocd`:
+
+```
+NAME                                 READY   STATUS              RESTARTS   AGE
+argocd-application-controller-0      0/1     ContainerCreating   0          59s
+argocd-dex-server-69599588c6-ktjbt   0/1     PodInitializing     0          60s
+argocd-redis-5b6967fdfc-8zdwk        1/1     Running             0          60s
+argocd-repo-server-779d955bc-84fgn   0/1     ContainerCreating   0          60s
+argocd-server-c45f45758-qgfr7        0/1     Running             0          59s
+```
+
+Her må vi vente til alle er i tilstanden `Running` og `Ready`.
 
 For å kunne nå Argo CD fra utsiden av Kubernetes-klyngen må vi dirigere noe trafikk. Argo CD kjører med SSL på innsiden over port 443. Denne ønsker vi å ha på port 8080 på utsiden.
 
