@@ -2,7 +2,9 @@
 
 [iSig](https://github.com/Itema-as/isig) er en liten Spring Boot basert applikasjon som benyttes til å generere e-post signaturer for Itema-ansatte. Den gjør foreløpig veldig lite som krever Java, men planen er å integrere med Google Apps sin adressebok.
 
-I Git-repoet hvor denne utvikles ligger en mappe med navn [k8s](https://github.com/Itema-as/isig/tree/master/k8s), den inneholder flere filer:
+## Deklarasjon av applikasjonen
+
+I Git-repoet hvor denne øvelsen utvikles ligger en mappe med navn [isig-kubernetes](https://github.com/Itema-as/gitops-in-practice/tree/master/isig-kubernetes), den inneholder flere filer:
 
 `isig-svc.yaml` beskriver _tjenesten_ som applikasjonenen publiserer. Legg merke til at vi også her benytter port **8080**. Denne kommer ikke i konflikt med Argo CD som vi jo også har satt opp til å bruke port 8080. Dette fordi vi kjører på en klynge hvor hver pod får sin egen IP-adresse.
 
@@ -44,7 +46,7 @@ spec:
         - containerPort: 8080
 ```
 
-På linje 17 angis det hvilket image som skal benyttes, altså `ghcr.io/itema-as/isig:1.0.0`. Så beskrivelsen av applikasjonen ligger i de to filene beskrevet ovenfor. Mens den ferdigbygde applikasjonen ligger i GitHub Container Registry.
+I `spec.template.spec.containers` angis det hvilket image som skal benyttes, altså `ghcr.io/itema-as/isig:1.0.0`. Så beskrivelsen av applikasjonen ligger i de to filene beskrevet ovenfor. Mens den ferdigbygde applikasjonen ligger i GitHub Container Registry.
 
 Sist har vi `kustomization.yaml` som beskriver hvordan [Kustomize](https://kustomize.io) skal håndtere applikasjonsdeklarasjonen og lister også opp andre filer som inngår i deklarasjonen.
 
@@ -57,6 +59,9 @@ resources:
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 ```
+
+Merk at vi kunne rett og slett brukt `kubectl apply -k .` i den mappen hvor filene ovenfor ligger og Kubernetes kunne nesten ha gjort hele jobben, bortsett fra at det mangler autentisering mot GitHub. Men siden vi også skal lære oss Argo CD gjør vi det litt mer omstendelig.
+
 ## Konfigurere GitHub PAT
 
 For at Argo CD skal kunne hente ut data fra dette repoet, som er et _privat_ GitHub repo, må applikasjonen autentiseres. Dette gjøres ved at du først lager et GitHub *Personal Access Token*. Dette gjøres via **Settings > Developer settings > Personal access tokens** Lag en ny med egenskapene:
