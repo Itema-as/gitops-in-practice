@@ -38,17 +38,17 @@ spec:
         app: isig
     spec:
       containers:
-      - image: ghcr.io/itema-as/isig:latest
+      - image: ghcr.io/itema-as/isig:1.0.0
         name: isig
         ports:
         - containerPort: 8080
 ```
 
-På linje 17 angis det hvilket image som skal benyttes, altså `ghcr.io/itema-as/isig:latest`. Så beskrivelsen av applikasjonen ligger i de to filene beskrevet ovenfor. Mens den ferdigbygde applikasjonen ligger i GitHub Container Registry.
+På linje 17 angis det hvilket image som skal benyttes, altså `ghcr.io/itema-as/isig:1.0.0`. Så beskrivelsen av applikasjonen ligger i de to filene beskrevet ovenfor. Mens den ferdigbygde applikasjonen ligger i GitHub Container Registry.
 
 Sist har vi `kustomization.yaml` som beskriver hvordan [Kustomize](https://kustomize.io) skal håndtere applikasjonsdeklarasjonen og lister også opp andre filer som inngår i deklarasjonen.
 
-```
+```yaml
 namePrefix: kustomize-
 
 resources:
@@ -66,25 +66,27 @@ For at Argo CD skal kunne hente ut data fra dette repoet, som er et _privat_ Git
 
 Nå kan vi logge inn med:
 
-```
+```shell
 argocd repo add https://github.com/itema-as/gitops-in-practice \
   --username <github-login> \
   --password <github-pat>
 ```
 
+Du finner igjen denne konfigurasjone om du går inn i Argo CD under **Settings > Repositories**.
+
 ## Instansiere applikasjonen
 
 For å lage en instans av applikasjonen i Argo CD er det lettest å bruke kommandolinja:
 
-```Shell
+```shell
 argocd app create isig --repo https://github.com/itema-as/gitops-in-practice \
   --path isig-kustomize --dest-server https://kubernetes.default.svc \
-  --dest-namespace default --server localhost:8080 --insecure
+  --dest-namespace default
 ```
 
 Neste operasjon blir å synkronisere applikasjonen og dernest kontrollere at den faktisk er oppe og kjører. Nå kan det være en god idé å følge med på brukergrensesnittet til Argo CD – da det gir et fint bilde av hva som skjer. Det finner du på https://localhost:8080. Åpne dette og kjør så fra kommandolinja.
 
-```Shell
+```shell
 argocd app sync isig && kubectl get svc
 ```
 
@@ -96,10 +98,10 @@ kubernetes               ClusterIP   10.96.0.1      <none>        443/TCP    8d
 kustomize-isig-service   ClusterIP   10.111.84.62   <none>        8080/TCP   4s
 ```
 
-For å få testet om iSig faktisk gjør det den skal kan vi redirigere trafikken slik at vi når den på vertsmaskina:
+Det kan ta noen sekunder for applikasjonen har startet så kjør `kubectl get pods` for å se om status er `Running`. Hvis så er tilfelle kan vi redirigere trafikken slik at vi når den på vertsmaskina:
 
-```Shell
-kubectl port-forward svc/kustomize-isig-service 8081:8080 2>&1 >/dev/null &
+```shell
+kubectl port-forward svc/isig-service 8081:8080 2>&1 >/dev/null &
 ```
 
 …og så åpne http://localhost:8081
