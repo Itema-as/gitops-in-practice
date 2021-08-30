@@ -13,7 +13,7 @@ spec:
   project: default
   source:
     path: isig-cd
-    repoURL: https://github.com/itema-as/isig
+    repoURL: https://github.com/itema-as/isig.git
     targetRevision: HEAD
   syncPolicy:
     automated:
