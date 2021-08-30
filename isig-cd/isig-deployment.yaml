@@ -14,7 +14,7 @@ spec:
         app: isig-cd
     spec:
       containers:
-      - image: ghcr.io/itema-as/isig:latest
+      - image: ghcr.io/itema-as/isig:master
         name: isig-cd
         ports:
         - containerPort: 8080
