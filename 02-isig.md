@@ -46,15 +46,43 @@ spec:
 
 På linje 17 angis det hvilket image som skal benyttes, altså `ghcr.io/itema-as/isig:latest`. Så beskrivelsen av applikasjonen ligger i de to filene beskrevet ovenfor. Mens den ferdigbygde applikasjonen ligger i GitHub Container Registry.
 
+Sist har vi `kustomization.yaml` som beskriver hvordan [Kustomize](https://kustomize.io) skal håndtere applikasjonsdeklarasjonen og lister også opp andre filer som inngår i deklarasjonen.
+
+```
+namePrefix: kustomize-
+
+resources:
+- isig-deployment.yaml
+- isig-svc.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+```
+## Konfigurere GitHub PAT
+
+For at Argo CD skal kunne hente ut data fra dette repoet, som er et _privat_ GitHub repo, må applikasjonen autentiseres. Dette gjøres ved at du først lager et GitHub *Personal Access Token*. Dette gjøres via **Settings > Developer settings > Personal access tokens** Lag en ny med egenskapene:
+
+- `read:packages`
+- `repo`
+
+Nå kan vi logge inn med:
+
+```
+argocd repo add https://github.com/itema-as/gitops-in-practice \
+  --username <github-login> \
+  --password <github-pat>
+```
+
+## Instansiere applikasjonen
+
 For å lage en instans av applikasjonen i Argo CD er det lettest å bruke kommandolinja:
 
 ```Shell
-argocd app create isig --repo https://github.com/itema-as/gitops-in-practice.git \
-  --path k8s --dest-server https://kubernetes.default.svc \
+argocd app create isig --repo https://github.com/itema-as/gitops-in-practice \
+  --path isig-kustomize --dest-server https://kubernetes.default.svc \
   --dest-namespace default --server localhost:8080 --insecure
 ```
 
-Neste operasjon blir å synkronisere applikasjonen og dernest kontrollere at den faktisk er oppe og kjører. Nå kan det være en god idé å følge med på brukergrensesnittet til Argo CD – da det gir et fint bilde av hva som skjer. Det ligger på https://localhost:8080. Åpne dette og kjør så fra kommandolinja.
+Neste operasjon blir å synkronisere applikasjonen og dernest kontrollere at den faktisk er oppe og kjører. Nå kan det være en god idé å følge med på brukergrensesnittet til Argo CD – da det gir et fint bilde av hva som skjer. Det finner du på https://localhost:8080. Åpne dette og kjør så fra kommandolinja.
 
 ```Shell
 argocd app sync isig && kubectl get svc
