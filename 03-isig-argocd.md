@@ -2,6 +2,7 @@
 
 Nå skal vi lage et opplegg hvor vi produksjonssetter kontinuerlig, altså for hver enkelt endring som kommer inn på `master`-greina. For å få til dette må vi først installere en komponent i Argo CD som kan reagere på endringer i et *Docker Container Registry*; [Argo CD Image Updater](https://argocd-image-updater.readthedocs.io/en/latest/install/start/).
 
+
 ```shell
 kubectl apply -n argocd -f \
   https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
@@ -55,7 +56,7 @@ Nå er vi klare til å opprette en ny instans av applikasjonen. Denne vil på gr
 ```
 argocd app create isig-cd --repo https://github.com/itema-as/gitops-in-practice \
   --path isig-argocd --dest-server https://kubernetes.default.svc \
-  --dest-namespace default --upsert
+  --dest-namespace
 argocd app sync isig-cd
 ```
 
@@ -85,6 +86,7 @@ spec:
       allowEmpty: true
       selfHeal: true
 ```
+Legg merke til `cd.update-strategy: digest`. Det er denne parameteren som forteller Argo CD at den skal hente ut gjeldende versjon av den taggen oppgitt i `image-list`.
 
 Så snart det er publisert nye versjoner av en applikasjon på **master**-greina vil man kunne se dette i Argo CD. Den nye pod'en dukker opp og hvis den starter opp OK (**B**), vil den gamle fjernes. I tillegg vil man kunne se at det dukker opp _replica set_ for hver av de gamle konfigurasjonene (**C**). Sammenligner man med når applikasjonen ble opprettet (**A**) ser man raskt at det har kommet nye versjoner.
 
