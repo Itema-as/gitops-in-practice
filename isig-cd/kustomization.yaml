@@ -1,4 +1,4 @@
-nameSuffix: master
+nameSuffix: -cd
 resources:
 - isig-deployment.yaml
 - isig-svc.yaml
