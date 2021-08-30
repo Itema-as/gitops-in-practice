@@ -8,7 +8,7 @@ kubectl apply -n argocd -f \
   https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-Har du litt tid kan du nå lese [veiledningen](https://argo-cd.readthedocs.io/en/stable/getting_started/) om om hvordan man kommer i gang med Argo CD. Du kan også [installere kommandolinjeverktøyet til Argo CD](https://argo-cd.readthedocs.io/en/stable/cli_installation/).
+Du må også [installere kommandolinjeverktøyet til Argo CD](https://argo-cd.readthedocs.io/en/stable/cli_installation/). Her er tilnærmingen litt forskjellig alt etter hvilket operativsystem man kjører.
 
 For å kunne nå Argo CD fra utsiden av Kubernetes-klyngen må vi dirigere noe trafikk. Argo CD kjører med SSL på innsiden over port 443. Denne ønsker vi å ha på port 8080 på utsiden.
 
@@ -21,14 +21,14 @@ Nå må vi få tak i passordet som trengs for å kunne logge seg inn på Argo CD
 ```
 kubectl -n argocd get secret argocd-initial-admin-secret \
   -o jsonpath="{.data.password}" | base64 -d
-
 ```
 Resultatet er en streng avsluttet med et prosenttegn. Tegnet er der for å indikere at strengen ikke er avsluttet med linjeskift, og er ikke en del av passordet.
 
-Har du installert kommandolinjeverktøyet kan du teste innloggingen slik:
+Vi skal senere i øvelsen benytte oss av kommandolinjeverktøyet til Argo CD, så for at dette skal virke må vi nå logge oss inn.
 
 ```
 argocd login localhost:8080 --insecure --username admin
 ```
 
-Eller du kan gå til https://localhost:8080/ og logge deg inn derfra.
+Har du litt tid kan du nå lese [veiledningen](https://argo-cd.readthedocs.io/en/stable/getting_started/) om om hvordan man kommer i gang med Argo CD. 
+
