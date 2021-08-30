@@ -4,7 +4,7 @@ metadata:
   annotations:
     argocd-image-updater.argoproj.io/image-list: cd=ghcr.io/itema-as/isig:master
     argocd-image-updater.argoproj.io/cd.update-strategy: digest
-name: isig
+  name: isig
   namespace: argocd
 spec:
   destination:
