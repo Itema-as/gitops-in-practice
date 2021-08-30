@@ -41,5 +41,5 @@ Vi skal senere i øvelsen benytte oss av kommandolinjeverktøyet til Argo CD, s�
 argocd login localhost:8080 --insecure --username admin
 ```
 
-Har du litt tid kan du nå lese [veiledningen](https://argo-cd.readthedocs.io/en/stable/getting_started/) om om hvordan man kommer i gang med Argo CD. 
+Har du litt tid kan du nå lese [veiledningen](https://argo-cd.readthedocs.io/en/stable/getting_started/) om om hvordan man kommer i gang med Argo CD. Eller du kan logge deg inn på brukergrensesnittet og utforske dette på https://localhost:8080.
 
