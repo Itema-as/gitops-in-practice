@@ -2,9 +2,9 @@
 
 [iSig](https://github.com/Itema-as/isig) er en liten Spring Boot basert applikasjon som benyttes til å generere e-post signaturer for Itema-ansatte. Den gjør foreløpig veldig lite som krever Java, men planen er å integrere med Google Apps sin adressebok.
 
-I Git-repoet hvor denne utvikles ligger en mappe med navn "k8s", den inneholder flere filer:
+I Git-repoet hvor denne utvikles ligger en mappe med navn [k8s](https://github.com/Itema-as/isig/tree/master/k8s), den inneholder flere filer:
 
-`isig-svc.yaml` beskriver _tjenesten_ som applikasjonenen publiserer. Legg merke til at vi også her bruker port 8080. Denne kommer ikke i konflikt med Argo CD som vi jo også har satt opp til å bruke port 8080. Dette fordi vi kjører på en klynge hvor hver pod får sin egen IP-adresse.
+`isig-svc.yaml` beskriver _tjenesten_ som applikasjonenen publiserer. Legg merke til at vi også her benytter port **8080**. Denne kommer ikke i konflikt med Argo CD som vi jo også har satt opp til å bruke port 8080. Dette fordi vi kjører på en klynge hvor hver pod får sin egen IP-adresse.
 
 ```yaml
 apiVersion: v1
@@ -44,10 +44,12 @@ spec:
         - containerPort: 8080
 ```
 
-Her angis det hvilket image som skal benyttes, altså `ghcr.io/itema-as/isig:latest`. Så beskrivelsen av applikasjonen ligger i de to filene beskrevet ovenfor. Mens den ferdigbygde applikasjonen ligger i GitHub Container Registry.
+På linje 17 angis det hvilket image som skal benyttes, altså `ghcr.io/itema-as/isig:latest`. Så beskrivelsen av applikasjonen ligger i de to filene beskrevet ovenfor. Mens den ferdigbygde applikasjonen ligger i GitHub Container Registry.
+
+For å lage en instans av applikasjonen i Argo CD er det lettest å bruke kommandolinja:
 
 ```Shell
-argocd app create isig --repo https://github.com/itema-as/isig.git \
+argocd app create isig --repo https://github.com/itema-as/gitops-in-practice.git \
   --path k8s --dest-server https://kubernetes.default.svc \
   --dest-namespace default --server localhost:8080 --insecure
 ```
