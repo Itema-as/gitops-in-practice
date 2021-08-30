@@ -50,14 +50,43 @@ kubectl create secret generic argocd-image-updater-secret \
 kubectl -n argocd rollout restart deployment argocd-image-updater
 ```
 
-
-
+Nå er vi klare til å opprette en ny instans av applikasjonen. Denne vil på grunn av den konfigurasjonen vi har gjort tidligere automatisk oppdatere applikasjonen hver gang det kommer et nytt image i ghcr.
 
 ```
 argocd app create isig-cd --repo https://github.com/itema-as/gitops-in-practice \
-  --path isig-cd --dest-server https://kubernetes.default.svc \
+  --path isig-argocd --dest-server https://kubernetes.default.svc \
   --dest-namespace default --upsert
 argocd app sync isig-cd
 ```
 
+Legg merke til at vi brukte `--path isig-argocd` her. Denne peker på annen Kubernetes-konfigurasjon enn den vi brukte tidligere. Hovedforskjellen er i `isig-application.yml`
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: cd=ghcr.io/itema-as/isig:master
+    argocd-image-updater.argoproj.io/cd.update-strategy: digest
+  name: isig
+  namespace: argocd
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: isig-cd
+    repoURL: https://github.com/itema-as/gitops-in-practice.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
+```
+
+Så snart det er publisert nye versjoner av en applikasjon på **master**-greina vil man kunne se dette i Argo CD. Den nye pod'en dukker opp og hvis den starter opp OK (**B**), vil den gamle fjernes. I tillegg vil man kunne se at det dukker opp _replica set_ for hver av de gamle konfigurasjonene (**C**). Sammenligner man med når applikasjonen ble opprettet (**A**) ser man raskt at det har kommet nye versjoner.
+
+![](./argocd-isig-cd.png)
 
