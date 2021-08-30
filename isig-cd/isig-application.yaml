@@ -2,10 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd-image-updater.argoproj.io/image-list: ghcr.io/itema-as/isig:latest
+    argocd-image-updater.argoproj.io/image-list: ghcr.io/itema-as/isig:master
   name: isig-cd
   namespace: argocd
 spec:
+  syncPolicy:
+    automated: {}
   destination:
     namespace: default
     server: https://kubernetes.default.svc
