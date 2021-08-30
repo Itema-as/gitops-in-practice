@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: ghcr.io/itema-as/isig:latest
+  name: isig-cd
+  namespace: argocd
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: isig-cd
+    repoURL: https://github.com/Itema-as/gitops-in-practice
+    targetRevision: HEAD
+
