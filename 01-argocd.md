@@ -35,7 +35,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
 ```
 Resultatet er en streng avsluttet med et prosenttegn. Tegnet er der for å indikere at strengen ikke er avsluttet med linjeskift, og er ikke en del av passordet.
 
-Vi skal senere i øvelsen benytte oss av kommandolinjeverktøyet til Argo CD, så for at dette skal virke må vi nå logge oss inn.
+Vi skal senere i øvelsen benytte oss av kommandolinjeverktøyet til Argo CD, så for at dette skal virke må vi nå logge oss inn. Kjør følgende og legg inn passordet hentet ut ovenfor når det blir spurt etter.
 
 ```Shell
 argocd login localhost:8080 --insecure --username admin
