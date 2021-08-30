@@ -4,17 +4,20 @@ metadata:
   annotations:
     argocd-image-updater.argoproj.io/image-list: cd = ghcr.io/itema-as/isig:master
     argocd-image-updater.argoproj.io/cd.update-strategy: digest
-  name: isig-cd
+  name: isig-master
   namespace: argocd
 spec:
-  syncPolicy:
-    automated: {}
   destination:
     namespace: default
     server: https://kubernetes.default.svc
   project: default
   source:
     path: isig-cd
-    repoURL: https://github.com/Itema-as/gitops-in-practice
+    repoURL: https://github.com/itema-as/isig
     targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
 

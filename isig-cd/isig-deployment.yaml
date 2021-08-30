@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: isig-cd
+  name: isig-master
 spec:
   replicas: 1
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: isig-cd
+      app: isig-master
   template:
     metadata:
       labels:
-        app: isig-cd
+        app: isig-master
     spec:
       containers:
       - image: ghcr.io/itema-as/isig:master
-        name: isig-cd
+        name: isig-master
         ports:
         - containerPort: 8080
 

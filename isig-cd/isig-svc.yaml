@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: isig-cd-service
+  name: isig-master-service
 spec:
   selector:
-    app: isig-cd
+    app: isig-master
   ports:
   - port: 8080
     targetPort: 8080
