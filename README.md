@@ -26,3 +26,6 @@ Vi trenger ingen spesielle parametre satt for denne øvelsen, så det er rett og
 🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 ```
 Neste trinn er å [installere og starte Argo CD](./01-argocd.md).
+
+
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/

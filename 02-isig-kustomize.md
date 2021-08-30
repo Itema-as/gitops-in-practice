@@ -4,7 +4,7 @@
 
 ## Deklarasjon av applikasjonen
 
-I Git-repoet hvor denne øvelsen utvikles ligger en mappe med navn [isig-kubernetes](https://github.com/Itema-as/gitops-in-practice/tree/master/isig-kubernetes), den inneholder flere filer:
+I Git-repoet hvor denne øvelsen utvikles ligger en mappe med navn [isig-kubernetes](./isig-kubernetes), den inneholder flere filer. Disse skal vi ikke endre på, følgende er bare en forklaring på hva de gjør.
 
 `isig-svc.yaml` beskriver _tjenesten_ som applikasjonenen publiserer. Legg merke til at vi også her benytter port **8080**. Denne kommer ikke i konflikt med Argo CD som vi jo også har satt opp til å bruke port 8080. Dette fordi vi kjører på en klynge hvor hver pod får sin egen IP-adresse.
 
