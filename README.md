@@ -2,10 +2,7 @@
 
 ## Forberedelser:
 
-Følg oppskriften for å installere følgende:
-
-1. minikube
-2. kubectl
+Følg [oppskriften](https://github.com/Itema-as/itemacon-2021-forberedelser) for å installere **minikube** og **kubectl**. Pass på å konfigurere en editor som kan benyttes når man kjører `kubectl edit`.
 
 ### Start opp minikube
 
