@@ -1,10 +1,20 @@
 # GitOps i praksis
 
+Dette repoet inneholder et sett med øvelser for å gjøre seg kjent med GitHub Actions og produksjonssetting av applikasjoner i Kubernetes ved hjelp av [Argo CD](https://argo-cd.readthedocs.io/en/stable/).
+
 ## Forberedelser:
 
 Følg [oppskriften](https://github.com/Itema-as/itemacon-2021-forberedelser) for å installere **minikube** og **kubectl**. Pass på å konfigurere en editor som kan benyttes når man kjører `kubectl edit`.
 
-### Start opp minikube
+Hvis du har en del kjørende i Minikube, kan det nå være en god ide å rydde unna slik at du har plass til alle konteinerne som vi skal starte i dette settet med øvelser.
+
+```
+❯ minikube delete
+🔥  Deleting "minikube" in docker ...
+🔥  Deleting container "minikube" ...
+🔥  Removing /Users/torkild/.minikube/machines/minikube ...
+💀  Removed all traces of the "minikube" cluster.
+```
 
 Vi trenger ingen spesielle parametre satt for denne øvelsen, så det er rett og slett bare å kjøre `minikube start`.
 
@@ -22,7 +32,9 @@ Vi trenger ingen spesielle parametre satt for denne øvelsen, så det er rett og
 🌟  Enabled addons: storage-provisioner, default-storageclass
 🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 ```
-Neste trinn er å [installere og starte Argo CD](./01-argocd.md).
+## Øvelser
 
+*  [Installere og starte Argo CD](./01-argocd.md) (omtrent 10 minutter)
+*  [Publisere en applikasjon fra et Git-repo](./02-isig-kustomize.md) (omtrent 10 minutter)
+*  [Kontinuerlig produksjonssetting med Argo CD](./03-isig-argocd.md) (omtrent 15 minutter)
 
-https://kubernetes.io/docs/reference/kubectl/cheatsheet/

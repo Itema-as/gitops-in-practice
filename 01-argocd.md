@@ -8,18 +8,17 @@ kubectl apply -n argocd -f \
   https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-Du må også [installere kommandolinjeverktøyet til Argo CD](https://argo-cd.readthedocs.io/en/stable/cli_installation/). Her er tilnærmingen litt forskjellig alt etter hvilket operativsystem man kjører. Dette kan du gjøre mens Argo CD starter opp på klyngen, noe som kan ta litt tid. For å sjekke statusen på poddene kan du utføre `kubectl get pods -n argocd`:
+Du må også [installere kommandolinjeverktøyet til Argo CD](https://argo-cd.readthedocs.io/en/stable/cli_installation/). Her er tilnærmingen litt forskjellig alt etter hvilket operativsystem man kjører. Dette kan du gjøre mens Argo CD starter opp på klyngen, noe som kan ta litt tid. For å sjekke statusen på poddene kan du utføre `kubectl get deploy -w -n argocd:
 
 ```
-NAME                                 READY   STATUS              RESTARTS   AGE
-argocd-application-controller-0      0/1     ContainerCreating   0          59s
-argocd-dex-server-69599588c6-ktjbt   0/1     PodInitializing     0          60s
-argocd-redis-5b6967fdfc-8zdwk        1/1     Running             0          60s
-argocd-repo-server-779d955bc-84fgn   0/1     ContainerCreating   0          60s
-argocd-server-c45f45758-qgfr7        0/1     Running             0          59s
+NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
+argocd-redis         1/1     1            1           51s
+argocd-repo-server   1/1     1            1           61s
+argocd-server        1/1     1            1           64s
+argocd-dex-server    1/1     1            1           82s
 ```
 
-Her må vi vente til alle er i tilstanden `Running` og `Ready`.
+Her må vi vente til alle er i tilstanden `Ready` og `Available`.
 
 For å kunne nå Argo CD fra utsiden av Kubernetes-klyngen må vi dirigere noe trafikk. Argo CD kjører med SSL på innsiden over port 443. Denne ønsker vi å ha på port 8080 på utsiden.
 
@@ -40,6 +39,25 @@ Vi skal senere i øvelsen benytte oss av kommandolinjeverktøyet til Argo CD, s�
 ```Shell
 argocd login localhost:8080 --insecure --username admin
 ```
+## Konfigurere GitHub PAT
 
+For at Argo CD skal kunne hente ut data fra private GitHub repo, må den kunne autentisere seg. Dette gjør man med et GitHub *Personal Access Token* som kal lages via [**Settings > Developer settings > Personal access tokens**](https://github.com/settings/tokens). Opprett et nytt med egenskapene:
+
+- `read:packages`
+- `repo`
+
+Nå kan vi logge inn med:
+
+```shell
+argocd repo add https://github.com/itema-as/gitops-in-practice \
+  --username <github-login> \
+  --password <github-pat>
+```
+
+Du finner igjen denne konfigurasjone om du går inn i Argo CD under **Settings > Repositories**.
+
+---
 Har du litt tid kan du nå lese [veiledningen](https://argo-cd.readthedocs.io/en/stable/getting_started/) om om hvordan man kommer i gang med Argo CD. Eller du kan logge deg inn på brukergrensesnittet og utforske dette på https://localhost:8080.
+
+👉 I [neste øvelse](./02-isig-kustomize.md) installerer vi en applikasjon ved hjelp av Argo CD. 
 

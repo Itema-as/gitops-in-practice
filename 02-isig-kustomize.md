@@ -6,7 +6,7 @@
 
 I Git-repoet hvor denne øvelsen utvikles ligger en mappe med navn [isig-kubernetes](./isig-kustomize), den inneholder flere filer. Disse skal vi ikke endre på, følgende er bare en forklaring på hva de gjør.
 
-`isig-svc.yaml` beskriver _tjenesten_ som applikasjonenen publiserer. Legg merke til at vi også her benytter port **8080**. Denne kommer ikke i konflikt med Argo CD som vi jo også har satt opp til å bruke port 8080. Dette fordi vi kjører på en klynge hvor hver pod får sin egen IP-adresse.
+`isig-svc.yaml` beskriver _tjenesten_ som applikasjonenen publiserer. Legg merke til at vi også her benytter port **8080**. Denne kommer ikke i konflikt med Argo CD som vi jo også har satt opp til å bruke port 8080. Dette fordi vi kjører på en klynge hvor hver *deployment* får sin egen IP-adresse.
 
 ```yaml
 apiVersion: v1
@@ -60,28 +60,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 ```
 
-Merk at vi kunne rett og slett brukt `kubectl apply -k .` i den mappen hvor filene ovenfor ligger og Kubernetes kunne nesten ha gjort hele jobben, bortsett fra at det mangler autentisering mot GitHub. Men siden vi også skal lære oss Argo CD gjør vi det litt mer omstendelig.
-
-## Konfigurere GitHub PAT
-
-For at Argo CD skal kunne hente ut data fra dette repoet, som er et _privat_ GitHub repo, må applikasjonen autentiseres. Dette gjøres ved at du først lager et GitHub *Personal Access Token*. Dette gjøres via **Settings > Developer settings > Personal access tokens** Lag en ny med egenskapene:
-
-- `read:packages`
-- `repo`
-
-Nå kan vi logge inn med:
-
-```shell
-argocd repo add https://github.com/itema-as/gitops-in-practice \
-  --username <github-login> \
-  --password <github-pat>
-```
-
-Du finner igjen denne konfigurasjone om du går inn i Argo CD under **Settings > Repositories**.
+Merk at vi kunne rett og slett klonet repoet og brukt `kubectl apply -k .` i den mappen hvor filene ovenfor ligger og Kubernetes kunne nesten ha gjort hele jobben. Men siden vi også skal lære oss Argo CD gjør vi det litt mer omstendelig.
 
 ## Instansiere applikasjonen
 
-For å lage en instans av applikasjonen i Argo CD er det lettest å bruke kommandolinja:
+For å lage en instans av applikasjonen i Argo CD er det lettest å bruke kommandolinja. Alternativet er å gjøre dette i Argo CD sitt brukergrensesnitt:
 
 ```shell
 argocd app create isig --repo https://github.com/itema-as/gitops-in-practice \
@@ -111,4 +94,8 @@ kubectl port-forward svc/isig-service 8081:8080 2>&1 >/dev/null &
 
 …og så åpne http://localhost:8081
 
+---
+
 Hvis du har litt tid er det nå en god idé å utforske brukergrensenittet til Argo CD. Klarer du å finne loggen til iSig?
+
+👉 I [neste øvelse](./03-isig-argocd.md) produksjonssetter vi applikasjonen kontinuerlig.
