@@ -2,7 +2,7 @@
 
 ## Argo CD Image Updater
 
-Nå skal vi lage et opplegg hvor vi produksjonssetter kontinuerlig, altså for hver enkelt endring som kommer inn på `master`-greina til *iSig* eller strengt tatt for hver gang et nytt *image* bygget fra dukker. Siden Argo CD normalt vil kun oppdatere en applikasjon om der er endringer i Git-repoet som deklarasjonen til applikasjonen ligger – må vi først legge til en komponent i Argo CD som kan reagere på endringer i et *Docker Container Registry*; [Argo CD Image Updater](https://argocd-image-updater.readthedocs.io/en/latest/install/start/).
+Nå skal vi lage et opplegg hvor vi produksjonssetter kontinuerlig, altså for hver enkelt endring som kommer inn på `master`-greina til *iSig* eller strengt tatt for hver gang et nytt *image* bygget fra dukker opp fra denne greina. Siden Argo CD normalt vil kun oppdatere en applikasjon om der er endringer i Git-repoet som deklarasjonen til applikasjonen ligger – må vi først legge til en ny tjeneste som kan reagere på endringer i et *Docker Container Registry* og fortelle Argo CD at den må oppdatere; [Argo CD Image Updater](https://argocd-image-updater.readthedocs.io/en/latest/install/start/).
 
 ```shell
 kubectl apply -n argocd -f \
@@ -13,12 +13,12 @@ Kjører du `kubectl get pods -n argocd` skal du nå se at den nye podden er oppe
 
 ### Autentisering mot Argo CD
 
-For at denne skal få kontakt med Argo CD API'et må vi gi den tilgang. Først må vi redigere konfigurasjonen til Argo CD. Denne finner vi inne i Kubernetes så da må vi bruke `kubectl`:
+For at *Image Updater* skal få kontakt med Argo CD API'et må vi gi den tilgang. Først må vi redigere konfigurasjonen til Argo CD. Denne finner vi inne i Kubernetes så da bruker vi `kubectl`:
 
 ```shell
 kubectl edit configmap argocd-cm -n argocd
 ```
-Kjør kommandoen ovenfor og legg til følgende snutt i tjenestens *config map*:
+Kjør kommandoen ovenfor og legg til følgende snutt nederst i tjenestens *config map*:
 
 ```yaml
 data:
@@ -31,7 +31,7 @@ Nå må vi generere et token som vi kan benytte senere. Vi tar vare på verdien 
 ARGOCD_TOKEN=$(argocd account generate-token --account image-updater --id image-updater)
 ```
 
-Nå har vi laget en brukerkonto og hentet ut et token som kan brukes til autentisering, nå må vi gi denne brukerkontoen tilgang (*rbac* er en mye brukt forkortelse for *Role Based Access Control*):
+Da har vi laget en brukerkonto og hentet ut et token som kan brukes til autentisering, nå må vi gi denne brukerkontoen tilgang til API'et (*rbac* er en mye brukt forkortelse for *Role Based Access Control*):
 
 ```shell
 kubectl edit configmap argocd-rbac-cm -n argocd
@@ -47,7 +47,7 @@ data:
     g, image-updater, role:image-updater
 
 ```
-Neste jobb er å lage en "secret" ut av det tokenet vi hentet ut tidligere slik at *Argo CD Image Updater* kan benytte seg av dette.
+Neste jobb er å lage en *secret* ut av det tokenet vi hentet ut tidligere slik at *Argo CD Image Updater* kan benytte seg av dette. Etterpå starter vi tjenesten på nytt slik at den får med seg endringene.
 
 ```shell
 kubectl create secret generic argocd-image-updater-secret \
@@ -93,7 +93,7 @@ spec:
       allowEmpty: true
       selfHeal: true
 ```
-Legg merke til `cd.update-strategy: digest`. Det er denne parameteren som forteller Argo CD at den skal hente ut gjeldende versjon av den taggen oppgitt i `image-list`.
+Legg merke til `cd.update-strategy: digest`. Det er denne parameteren som forteller Argo CD at den skal hente ut gjeldende versjon av den taggen oppgitt i `image-list`. Hvis *digest*, altså en SHA-sjekksum er forskjellig fra den instansen som kjører i klyngen, så vil det blir foretatt en oppdatering.
 
 Så snart det er publisert nye versjoner av en applikasjon på **master**-greina vil man kunne se dette i Argo CD. Den nye pod'en dukker opp og hvis den starter opp OK (**B**), vil den gamle fjernes. I tillegg vil man kunne se at det dukker opp _replica set_ for hver av de gamle konfigurasjonene (**C**). Sammenligner man med når applikasjonen ble opprettet (**A**) ser man raskt at det har kommet nye versjoner.
 
@@ -101,3 +101,4 @@ For å demonstrere dette kan man kjøre [CI-workflowen til iSig](https://github.
 
 ![](./argocd-isig-cd.png)
 
+Hvis du vil kontrollere at iSig faktisk er oppe og kjører kan du utføre `minikube service isig-service-cd`. Denne kommandoen vil gjøre nødvendig nettverksmagi og åpne nettleseren din på riktig adresse. Dog vil den i alle fall på macOS blokkere terminalen ditt slik at du evt. må åpne en ny instans hvis du skal jobbe videre.
