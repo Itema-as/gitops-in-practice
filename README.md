@@ -37,4 +37,5 @@ Vi trenger ingen spesielle parametre satt for denne øvelsen, så det er rett og
 *  [Installere og starte Argo CD](./01-argocd.md) (omtrent 10 minutter)
 *  [Publisere en applikasjon fra et Git-repo](./02-isig-kustomize.md) (omtrent 10 minutter)
 *  [Kontinuerlig produksjonssetting med Argo CD](./03-isig-argocd.md) (omtrent 15 minutter)
+*  [Samle inn metrikker med Prometheus](./04-argocd-metrics.md) (omtrent 15 minutter)
 

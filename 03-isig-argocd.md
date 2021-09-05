@@ -101,4 +101,8 @@ For å demonstrere dette kan man kjøre [CI-workflowen til iSig](https://github.
 
 ![](./argocd-isig-cd.png)
 
+---
+
 Hvis du vil kontrollere at iSig faktisk er oppe og kjører kan du utføre `minikube service isig-service-cd`. Denne kommandoen vil gjøre nødvendig nettverksmagi og åpne nettleseren din på riktig adresse. Dog vil den i alle fall på macOS blokkere terminalen ditt slik at du evt. må åpne en ny instans hvis du skal jobbe videre.
+
+👉 I [neste øvelse](./04-argocd-metrics.md) installerer vi Prometheus og kikker litt på metrikker.
