@@ -5,5 +5,4 @@ nameSuffix: -cd
 resources:
   - ../_base
   - deployment.yaml
-  - application.yaml
 
