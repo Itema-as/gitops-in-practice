@@ -1,4 +1,4 @@
-# Kontinuerlig produksjonssetting
+# Kontinuerlig produksjonssetting med Argo CD
 
 ## Argo CD Image Updater
 

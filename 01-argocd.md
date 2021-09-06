@@ -64,5 +64,5 @@ Du finner igjen denne konfigurasjone om du går inn i Argo CD under **Settings >
 ---
 Har du litt tid kan du nå lese [veiledningen](https://argo-cd.readthedocs.io/en/stable/getting_started/) om om hvordan man kommer i gang med Argo CD. Eller du kan logge deg inn på brukergrensesnittet og utforske dette på https://localhost:8080.
 
-👉 I [neste øvelse](./02-isig-kustomize.md) installerer vi en applikasjon ved hjelp av Argo CD. 
+👉 I [neste øvelse](./02-isig-prod.md) installerer vi en applikasjon ved hjelp av Argo CD.
 
