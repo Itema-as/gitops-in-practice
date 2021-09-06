@@ -50,8 +50,7 @@ Nå kan vi logge inn med:
 
 ```shell
 argocd repo add https://github.com/itema-as/gitops-in-practice \
-  --username <github-login> \
-  --password <github-pat>
+  --username <github-login> --password <github-pat>
 ```
 
 Du finner igjen denne konfigurasjone om du går inn i Argo CD under **Settings > Repositories**.

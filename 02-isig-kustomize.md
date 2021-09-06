@@ -4,9 +4,9 @@
 
 ## Deklarasjon av applikasjonen
 
-I Git-repoet hvor denne øvelsen utvikles ligger en mappe med navn [isig-kubernetes](./isig-kustomize), den inneholder flere filer. Disse skal vi ikke endre på, følgende er bare en forklaring på hva de gjør.
+I Git-repoet hvor denne øvelsen utvikles ligger en mappe med navn [./argcd-applications](./argcd-applications), den inneholder flere filer. Disse skal vi ikke endre på, følgende er bare en forklaring på hva de gjør.
 
-`isig-svc.yaml` beskriver _tjenesten_ som applikasjonenen publiserer. Legg merke til at vi også her benytter port **8080**. Denne kommer ikke i konflikt med Argo CD som vi jo også har satt opp til å bruke port 8080. Dette fordi vi kjører på en klynge hvor hver *deployment* får sin egen IP-adresse.
+`_base/service.yaml` beskriver _tjenesten_ som applikasjonenen publiserer. Legg merke til at vi også her benytter port **8080**. Denne kommer ikke i konflikt med Argo CD som vi jo også har satt opp til å bruke port 8080. Dette fordi vi kjører på en klynge hvor hver *deployment* får sin egen IP-adresse. I mappen `_base` ligger forøvrig alt som er felles for de to forskjellige miljøene vi skal definere.
 
 ```yaml
 apiVersion: v1
@@ -21,7 +21,7 @@ spec:
     targetPort: 8080
 ```
 
-Dernest har vi `isig-deployment.yaml` som beskriver produksjonssettingen av det Docker-imaget som er bygget og som utgjør distribusjonen av applikasjonen. Her sies det også hvor dette imaget skal hentes fra og hvilken port tjenesten kjører på.
+Dernest har vi `prod/deployment.yaml` som beskriver produksjonssettingen av det Docker-imaget som er bygget og som utgjør distribusjonen av applikasjonen til "produksjon". Her sies det også hvor dette imaget skal hentes fra og hvilken port tjenesten kjører på.
 
 ```yaml
 apiVersion: apps/v1
@@ -46,18 +46,17 @@ spec:
         - containerPort: 8080
 ```
 
-I `spec.template.spec.containers` angis det hvilket image som skal benyttes, altså `ghcr.io/itema-as/isig:1.0.0`. Så beskrivelsen av applikasjonen ligger i de to filene beskrevet ovenfor. Mens den ferdigbygde applikasjonen ligger i GitHub Container Registry.
+I `prod/application.yaml` som definerer applikasjonen ovenfor Argo CD. Her, i `spec.template.spec.containers` angis det hvilket image som skal benyttes, altså `ghcr.io/itema-as/isig:1.0.0`. Så beskrivelsen av applikasjonen ligger i de to filene beskrevet ovenfor. Mens den ferdigbygde applikasjonen ligger i GitHub Container Registry.
 
-Sist har vi `kustomization.yaml` som beskriver hvordan [Kustomize](https://kustomize.io) skal håndtere applikasjonsdeklarasjonen og lister også opp andre filer som inngår i deklarasjonen.
+Sist har vi `prod/kustomization.yaml` som beskriver hvordan [Kustomize](https://kustomize.io) skal håndtere applikasjonsdeklarasjonen og lister også opp andre filer som inngår i deklarasjonen.
 
 ```yaml
-namePrefix: kustomize-
-
-resources:
-- isig-deployment.yaml
-- isig-svc.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+resources:
+  - deployment.yaml
+  - service.yaml
+  - application.yaml
 ```
 
 Merk at vi kunne rett og slett klonet repoet og brukt `kubectl apply -k .` i den mappen hvor filene ovenfor ligger og Kubernetes kunne nesten ha gjort hele jobben. Men siden vi også skal lære oss Argo CD gjør vi det litt mer omstendelig.
@@ -68,7 +67,7 @@ For å lage en instans av applikasjonen i Argo CD er det lettest å bruke komman
 
 ```shell
 argocd app create isig --repo https://github.com/itema-as/gitops-in-practice \
-  --path isig-kustomize --dest-server https://kubernetes.default.svc \
+  --path argocd-applications/isig/prod --dest-server https://kubernetes.default.svc \
   --dest-namespace default
 ```
 
