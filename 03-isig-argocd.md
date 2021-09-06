@@ -62,7 +62,7 @@ Nå er vi klare til å opprette en ny instans av iSig. Dette vil i motsetning ti
 
 ```
 argocd app create isig-cd --repo https://github.com/itema-as/gitops-in-practice \
-  --path isig-argocd --dest-server https://kubernetes.default.svc \
+  --path argocd-applications/isig/develop --dest-server https://kubernetes.default.svc \
   --dest-namespace default
 argocd app sync isig-cd
 ```
@@ -93,7 +93,7 @@ spec:
       allowEmpty: true
       selfHeal: true
 ```
-Legg merke til `cd.update-strategy: digest`. Det er denne parameteren som forteller Argo CD at den skal hente ut gjeldende versjon av den taggen oppgitt i `image-list`. Hvis *digest*, altså en SHA-sjekksum er forskjellig fra den instansen som kjører i klyngen, så vil det blir foretatt en oppdatering.
+Legg merke til `argocd-image-updater.argoproj.io/cd.update-strategy: digest`. Det er denne parameteren som forteller Argo CD at den skal hente ut gjeldende versjon av den taggen oppgitt i `image-list`. Hvis *digest*, altså en SHA-sjekksum er forskjellig fra den instansen som kjører i klyngen, så vil det blir foretatt en oppdatering.
 
 Så snart det er publisert nye versjoner av en applikasjon på **master**-greina vil man kunne se dette i Argo CD. Den nye pod'en dukker opp og hvis den starter opp OK (**B**), vil den gamle fjernes. I tillegg vil man kunne se at det dukker opp _replica set_ for hver av de gamle konfigurasjonene (**C**). Sammenligner man med når applikasjonen ble opprettet (**A**) ser man raskt at det har kommet nye versjoner.
 

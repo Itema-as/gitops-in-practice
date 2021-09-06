@@ -1,4 +1,4 @@
-# Publisering av iSig på Kubernetes
+# Publisering av iSig på Kubernetes med Argo CD
 
 [iSig](https://github.com/Itema-as/isig) er en liten Spring Boot basert applikasjon som benyttes til å generere e-post signaturer for Itema-ansatte. Den gjør foreløpig veldig lite som krever Java, men planen er å integrere med Google Apps sin adressebok.
 
@@ -46,19 +46,16 @@ spec:
         - containerPort: 8080
 ```
 
-
-I filen [./argocd-applications/isig/prod/application.yaml](./argocd-applications/isig/prod/application.yaml) finner vi applikasjonsdeklarasjonen til bruk av Argo CD. Her, i `spec.template.spec.containers` angis det hvilket image som skal benyttes, altså `ghcr.io/itema-as/isig:1.0.0`. Så beskrivelsen av applikasjonen ligger i de to filene beskrevet ovenfor. Mens den ferdigbygde applikasjonen ligger i GitHub Container Registry.
-
-Sist har vi `isig/prod/kustomization.yaml` som beskriver hvordan [Kustomize](https://kustomize.io) skal håndtere applikasjonsdeklarasjonen og lister også opp andre filer som inngår i deklarasjonen.
+Så har vi `isig/prod/kustomization.yaml` som beskriver hvordan [Kustomize](https://kustomize.io) skal håndtere applikasjonsdeklarasjonen og lister også opp andre filer som inngår i deklarasjonen.
 
 ```yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - deployment.yaml
-  - service.yaml
-  - application.yaml
 ```
+
+I filen [./argocd-applications/isig/prod/application.yaml](./argocd-applications/isig/prod/application.yaml) finner vi applikasjonsdeklarasjonen til bruk av Argo CD. Her, i `spec.template.spec.containers` angis det hvilket image som skal benyttes, altså `ghcr.io/itema-as/isig:1.0.0`. I tilleg er der en peker til `./applications/isig/prod` hvor infrastruktur, miljøvariabeler og så videre vist ovenfor er definert.
 
 Merk at vi kunne rett og slett klonet repoet og brukt `kubectl apply -k .` i den mappen hvor filene ovenfor ligger og Kubernetes kunne nesten ha gjort hele jobben. Men siden vi også skal lære oss Argo CD gjør vi det litt mer omstendelig.
 
