@@ -4,9 +4,9 @@
 
 ## Deklarasjon av applikasjonen
 
-I Git-repoet hvor denne øvelsen utvikles ligger en mappe med navn [./applications](./applications), den inneholder flere filer. Disse skal vi ikke endre på, følgende er bare en forklaring på hva de gjør.
+I Git-repoet hvor denne øvelsen utvikles ligger en mappe med navn [./argocd-applications](./argocd-applications), den inneholder flere filer. Disse skal vi ikke endre på, følgende er bare en forklaring på hva de gjør.
 
-`isig/_base/service.yaml` beskriver _tjenesten_ som applikasjonenen publiserer. Legg merke til at vi også her benytter port **8080**. Denne kommer ikke i konflikt med Argo CD som vi jo også har satt opp til å bruke port 8080. Dette fordi vi kjører på en klynge hvor hver *deployment* får sin egen IP-adresse. I mappen `_base` ligger forøvrig alt som er felles for de to forskjellige miljøene vi skal definere.
+Under der, finner vi `isig/_base/service.yaml` som beskriver _tjenesten_ som applikasjonenen publiserer. Legg merke til at vi også her benytter port **8080**. Denne kommer ikke i konflikt med Argo CD som vi jo også har satt opp til å bruke port 8080. Dette fordi vi kjører på en klynge hvor hver *deployment* får sin egen IP-adresse. I mappen `_base` ligger forøvrig alt som er felles for de to forskjellige miljøene vi skal definere.
 
 ```yaml
 apiVersion: v1
@@ -53,11 +53,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - deployment.yaml
+  - application.yaml
 ```
 
-I filen [./argocd-applications/isig/prod/application.yaml](./argocd-applications/isig/prod/application.yaml) finner vi applikasjonsdeklarasjonen til bruk av Argo CD. Her, i `spec.template.spec.containers` angis det hvilket image som skal benyttes, altså `ghcr.io/itema-as/isig:1.0.0`. I tilleg er der en peker til `./applications/isig/prod` hvor infrastruktur, miljøvariabeler og så videre vist ovenfor er definert.
+I filen [./argocd-applications/isig/prod/application.yaml](./argocd-applications/isig/prod/application.yaml) finner vi applikasjonsdeklarasjonen til bruk av Argo CD. Her ligger det en peker til mappen hvor selvsamme fil ligger i. Vi har lagt alt i samme filstruktur for å gjøre det litt enklere å håndtere.
 
-Merk at vi kunne rett og slett klonet repoet og brukt `kubectl apply -k .` i den mappen hvor filene ovenfor ligger og Kubernetes kunne nesten ha gjort hele jobben. Men siden vi også skal lære oss Argo CD gjør vi det litt mer omstendelig.
+Merk at vi kunne rett og slett klonet repoet og brukt `kubectl apply -k .` i `./argocd-applications/isig/prod/`, hvor filene ovenfor ligger og Kubernetes kunne nesten ha gjort hele jobben. Men siden vi også skal lære oss Argo CD gjør vi det litt mer omstendelig.
 
 ## Instansiere applikasjonen
 
@@ -65,7 +66,7 @@ For å lage en instans av applikasjonen i Argo CD er det lettest å bruke komman
 
 ```shell
 argocd app create isig --repo https://github.com/itema-as/gitops-in-practice \
-  --path argocd-applications/isig/prod --dest-server https://kubernetes.default.svc \
+  --path ./argocd-applications/isig/prod --dest-server https://kubernetes.default.svc \
   --dest-namespace default
 ```
 

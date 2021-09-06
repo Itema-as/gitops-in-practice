@@ -67,7 +67,7 @@ argocd app create isig-cd --repo https://github.com/itema-as/gitops-in-practice 
 argocd app sync isig-cd
 ```
 
-Legg merke til at vi brukte `--path isig-argocd` her. Denne peker på annen Kubernetes-konfigurasjon enn den vi brukte tidligere. Hovedforskjellen finnes i `isig-application.yml` som vist nedenfor.
+Legg merke til at vi brukte `--path argocd-applications/isig/develop` her. Denne peker på annen Kubernetes-konfigurasjon enn den vi brukte tidligere. Hovedforskjellen finnes i `application.yml` som vist nedenfor.
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
