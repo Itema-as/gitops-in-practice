@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+data:
+  context: |
+    argocdUrl: https://localhost:8080
+    environmentName: Minikube
+  service.slack: |
+    token: $slack-token
+    username: Argo CD
+    icon: https://argocd-notifications.readthedocs.io/en/stable/assets/logo.png
+  # Merk at der må være registrert en App med navn "argocd" satt opp i Slack
+  subscriptions: |
+    - recipients:
+      - slack:argocd
+      triggers:
+      - on-sync-status-unknown
+      - on-sync-failed
+      - on-health-degraded
+      - on-deployed
+      - on-sync-succeeded
