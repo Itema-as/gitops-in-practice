@@ -2,7 +2,8 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd-image-updater.argoproj.io/image-list: cd=ghcr.io/itema-as/isig:1.0.0
+    argocd-image-updater.argoproj.io/image-list: cd=ghcr.io/itema-as/isig:master
+    argocd-image-updater.argoproj.io/cd.update-strategy: digest
     notifications.argoproj.io/subscribe.on-sync-succeeded.slack: torkildtest
     notifications.argoproj.io/subscribe.on-deployed.slack: torkildtest
   name: isig
@@ -13,7 +14,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: ./argocd-applications/isig/prod
+    path: ./applications/isig/develop
     repoURL: https://github.com/itema-as/gitops-in-practice.git
     targetRevision: main
   syncPolicy:

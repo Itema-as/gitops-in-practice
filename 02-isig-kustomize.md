@@ -4,9 +4,9 @@
 
 ## Deklarasjon av applikasjonen
 
-I Git-repoet hvor denne øvelsen utvikles ligger en mappe med navn [./argcd-applications](./argcd-applications), den inneholder flere filer. Disse skal vi ikke endre på, følgende er bare en forklaring på hva de gjør.
+I Git-repoet hvor denne øvelsen utvikles ligger en mappe med navn [./applications](./applications), den inneholder flere filer. Disse skal vi ikke endre på, følgende er bare en forklaring på hva de gjør.
 
-`_base/service.yaml` beskriver _tjenesten_ som applikasjonenen publiserer. Legg merke til at vi også her benytter port **8080**. Denne kommer ikke i konflikt med Argo CD som vi jo også har satt opp til å bruke port 8080. Dette fordi vi kjører på en klynge hvor hver *deployment* får sin egen IP-adresse. I mappen `_base` ligger forøvrig alt som er felles for de to forskjellige miljøene vi skal definere.
+`isig/_base/service.yaml` beskriver _tjenesten_ som applikasjonenen publiserer. Legg merke til at vi også her benytter port **8080**. Denne kommer ikke i konflikt med Argo CD som vi jo også har satt opp til å bruke port 8080. Dette fordi vi kjører på en klynge hvor hver *deployment* får sin egen IP-adresse. I mappen `_base` ligger forøvrig alt som er felles for de to forskjellige miljøene vi skal definere.
 
 ```yaml
 apiVersion: v1
@@ -21,7 +21,7 @@ spec:
     targetPort: 8080
 ```
 
-Dernest har vi `prod/deployment.yaml` som beskriver produksjonssettingen av det Docker-imaget som er bygget og som utgjør distribusjonen av applikasjonen til "produksjon". Her sies det også hvor dette imaget skal hentes fra og hvilken port tjenesten kjører på.
+Dernest har vi `isig/prod/deployment.yaml` som beskriver produksjonssettingen av det Docker-imaget som er bygget og som utgjør distribusjonen av applikasjonen til "produksjon". Her sies det også hvor dette imaget skal hentes fra og hvilken port tjenesten kjører på.
 
 ```yaml
 apiVersion: apps/v1
@@ -46,9 +46,10 @@ spec:
         - containerPort: 8080
 ```
 
-I `prod/application.yaml` som definerer applikasjonen ovenfor Argo CD. Her, i `spec.template.spec.containers` angis det hvilket image som skal benyttes, altså `ghcr.io/itema-as/isig:1.0.0`. Så beskrivelsen av applikasjonen ligger i de to filene beskrevet ovenfor. Mens den ferdigbygde applikasjonen ligger i GitHub Container Registry.
 
-Sist har vi `prod/kustomization.yaml` som beskriver hvordan [Kustomize](https://kustomize.io) skal håndtere applikasjonsdeklarasjonen og lister også opp andre filer som inngår i deklarasjonen.
+I filen [./argocd-applications/isig/prod/application.yaml](./argocd-applications/isig/prod/application.yaml) finner vi applikasjonsdeklarasjonen til bruk av Argo CD. Her, i `spec.template.spec.containers` angis det hvilket image som skal benyttes, altså `ghcr.io/itema-as/isig:1.0.0`. Så beskrivelsen av applikasjonen ligger i de to filene beskrevet ovenfor. Mens den ferdigbygde applikasjonen ligger i GitHub Container Registry.
+
+Sist har vi `isig/prod/kustomization.yaml` som beskriver hvordan [Kustomize](https://kustomize.io) skal håndtere applikasjonsdeklarasjonen og lister også opp andre filer som inngår i deklarasjonen.
 
 ```yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
