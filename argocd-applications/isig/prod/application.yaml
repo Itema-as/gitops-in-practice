@@ -11,7 +11,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: ./applications/isig/prod
+    path: ./argocd-applications/isig/prod
     repoURL: https://github.com/itema-as/gitops-in-practice.git
     targetRevision: main
   syncPolicy:
