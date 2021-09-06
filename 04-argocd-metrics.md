@@ -1,7 +1,6 @@
-## Overvåkning med Prometheus
+## Overvåkning og metrikker med Prometheus og Grafana
 
 Denne gangen skal vi bruke et såkalt *Helm Chart* til å installere en relativt kompleks applikasjon, [Prometheus](https://prometheus.io).
-
 
 Først må vi legge til repoet hvor vi finner "kartet". Dernest installerer vi applikasjonen og eksponerer porten den kjører på.
 
@@ -63,7 +62,7 @@ Nå som vi har fått litt data kan vi bruke Prometheus sin spørrefunksjon til �
 
 ![](./prometheus-graph.png)
 
-## Grafana
+## Installere Grafana
 
 Nå skal vi prøve oss på å visualsere metrikken som *Argo CD Image Updater* eksponerer. Først må vi installere Grafana og eksponere porten tjenesten kjører på.
 
@@ -88,10 +87,12 @@ kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-passwor
 
 Nå kan du åpne Grafana på http://localhost:3000 og logge deg inn med brukernavn "admin" og passordet du hentet ut nettopp.
 
-Det neste som må gjøres er å legge til den Prometheus-instansen vi nettopp har installert som en datakilde. Her trenger vi kun å angi URL som er http://prometheus-server:80.
+## Konfigurere Grafana
+
+Det neste som må gjøres er å legge til den Prometheus-instansen vi nettopp har installert som en datakilde. Her trenger vi kun å angi URL som er `http://prometheus-server:80`.
 
 ![](./prometheus-data-source.png)
 
-Nå er vi klare til å lage et *dashboard*. Dette gjør vi ved å gå til **+ > Create > Import** og lime inn [denne koden](https://raw.githubusercontent.com/Itema-as/gitops-in-practice/main/grafana-dashboard.json?token=AACSMLX4IATCPOZIHRHBDLLBGSDVK) i **Import via panel json**.
+Nå er vi klare til å lage et *dashboard*. Dette gjør vi ved å gå til **+ > Create > Import** og lime inn [denne koden](https://raw.githubusercontent.com/Itema-as/gitops-in-practice/main/grafana-dashboard.json?token=AACSMLX4IATCPOZIHRHBDLLBGSDVK) i **Import via panel json**. Her man man se hvor ofte et en applikasjon er oppdatert i diagrammet *Image updates (per app)*.
 
 ![](./argocd-image-updater.png)

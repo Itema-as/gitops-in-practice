@@ -1,6 +1,6 @@
 # GitOps i praksis
 
-Dette repoet inneholder et sett med øvelser for å gjøre seg kjent med GitHub Actions og produksjonssetting av applikasjoner i Kubernetes ved hjelp av [Argo CD](https://argo-cd.readthedocs.io/en/stable/).
+Dette repoet inneholder et sett med øvelser for å gjøre seg kjent med GitHub Actions og kontinuerlig produksjonssetting av applikasjoner i Kubernetes ved hjelp av [Argo CD](https://argo-cd.readthedocs.io/en/stable/). Vi ser også litt på uthenting av metrikker for denne produksjonssettinga.
 
 ## Forberedelser:
 
