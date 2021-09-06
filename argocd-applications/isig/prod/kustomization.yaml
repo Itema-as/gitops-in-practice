@@ -3,6 +3,6 @@ kind: Kustomization
 
 resources:
   - ../_base
-	- application.yaml
+  - application.yaml
   - deployment.yaml
 
