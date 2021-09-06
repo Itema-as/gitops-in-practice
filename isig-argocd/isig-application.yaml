@@ -5,7 +5,7 @@ metadata:
     argocd-image-updater.argoproj.io/image-list: cd=ghcr.io/itema-as/isig:master
     argocd-image-updater.argoproj.io/cd.update-strategy: digest
     notifications.argoproj.io/subscribe.on-sync-succeeded.slack: torkildtest
-    notifications.argoproj.io/subscribe.on-deployed: torkildtest
+    notifications.argoproj.io/subscribe.on-deployed.slack: torkildtest
   name: isig
   namespace: argocd
 spec:
