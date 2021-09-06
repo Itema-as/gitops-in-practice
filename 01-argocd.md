@@ -8,7 +8,13 @@ kubectl apply -n argocd -f \
   https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-Du må også [installere kommandolinjeverktøyet til Argo CD](https://argo-cd.readthedocs.io/en/stable/cli_installation/). Her er tilnærmingen litt forskjellig alt etter hvilket operativsystem man kjører. Dette kan du gjøre mens Argo CD starter opp på klyngen, noe som kan ta litt tid. For å sjekke statusen på poddene kan du utføre `kubectl get deploy -w -n argocd`:
+Du må også [installere kommandolinjeverktøyet til Argo CD](https://argo-cd.readthedocs.io/en/stable/cli_installation/). Her er tilnærmingen litt forskjellig alt etter hvilket operativsystem man kjører. Dette kan du gjøre mens Argo CD starter opp på klyngen, noe som kan ta litt tid. For å sjekke statusen på poddene kan du utføre 
+
+```
+kubectl get deploy -w -n argocd
+```
+
+Når alt er klart skal det se omtrent slik ut:
 
 ```
 NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
