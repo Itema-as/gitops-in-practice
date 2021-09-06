@@ -13,7 +13,7 @@ kubectl expose service prometheus-server --type=NodePort --target-port=9090 --na
 Prometheus klarer av en eller annen grunn ikke løse DNS innenfor klyngen, så når vi nå skal legge til metrikkene til Argo CD må vi gjøre dette på den vanskelige måten. Først må vi finne IP-adressen til Argo CD Metrics tjenesten:
 
 ```
-get service argocd-metrics -n argocd
+kubectl get service argocd-metrics -n argocd
 ```
 Du skal nå få noe som dette. `CLUSTER-IP` er den adressen vi er ute etter.
 
@@ -93,6 +93,6 @@ Det neste som må gjøres er å legge til den Prometheus-instansen vi nettopp ha
 
 ![](./prometheus-data-source.png)
 
-Nå er vi klare til å lage et *dashboard*. Dette gjør vi ved å gå til **+ > Create > Import** og lime inn [denne koden](https://raw.githubusercontent.com/Itema-as/gitops-in-practice/main/grafana-dashboard.json?token=AACSMLX4IATCPOZIHRHBDLLBGSDVK) i **Import via panel json**. Her man man se hvor ofte et en applikasjon er oppdatert i diagrammet *Image updates (per app)*.
+Nå er vi klare til å lage et *dashboard*. Dette gjør vi ved å gå til **+ > Create > Import** og lime inn [denne koden](https://github.com/Itema-as/gitops-in-practice/blob/main/grafana-dashboard.json) i **Import via panel json** (velg **Raw** format). Her man man se hvor ofte et en applikasjon er oppdatert i diagrammet *Image updates (per app)*.
 
 ![](./argocd-image-updater.png)
