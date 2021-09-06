@@ -3,6 +3,6 @@ kind: Kustomization
 nameSuffix: -cd
 
 resources:
-  - ../_base
+  - service.yaml
 
 

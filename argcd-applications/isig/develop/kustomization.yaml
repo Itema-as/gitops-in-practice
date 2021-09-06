@@ -1,8 +1,9 @@
-nameSuffix: -cd
-resources:
-  - deployment.yaml
-  - service.yaml
-  - application.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+nameSuffix: -cd
+resources:
+  - ../_base
+  - deployment.yaml
+  - application.yaml
 
