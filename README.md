@@ -1,12 +1,16 @@
 # GitOps i praksis
 
-Dette repoet inneholder et sett med øvelser for å gjøre seg kjent med GitHub Actions og kontinuerlig produksjonssetting av applikasjoner i Kubernetes ved hjelp av [Argo CD](https://argo-cd.readthedocs.io/en/stable/). Vi ser også litt på uthenting av metrikker for denne produksjonssettinga.
+![](./slides/oversikt.png)
+
+Dette repoet inneholder et sett med øvelser for å gjøre seg kjent med GitHub Actions og kontinuerlig produksjonssetting av applikasjoner i Kubernetes ved hjelp av [Argo CD](https://argo-cd.readthedocs.io/en/stable/). Vi ser også litt på uthenting av metrikker for denne produksjonssettinga med Prometheus, samt visualsering med Grafana.
+
+Nødvendig kode for å instansiere *Argo CD Notifications* i klyngen er også med, men vi skal ikke rigge opp dette da det blir i overkant mange instanser som skal varsle på samme tid. Se heller på Itema Slack, kanalen `#torkildtest` – der vil det bli varslet når det er bygget et nytt *image* som da også vil bli produksjonssatt i din klynge.
 
 ## Forberedelser:
 
 Følg [oppskriften](https://github.com/Itema-as/itemacon-2021-forberedelser) for å installere `minikube`, `helm` og `kubectl`. Pass på å også konfigurere en editor som kan benyttes når man kjører `kubectl edit`.
 
-Hvis du har en del kjørende i Minikubefra før av, kan det nå være en god ide å rydde unna slik at du har plass til alle konteinerne som vi skal starte i dette settet med øvelser.
+Hvis du har en del kjørende i Minikube fra før av, kan det nå være en god ide å rydde unna slik at du har plass til alle konteinerne som vi skal starte i dette settet med øvelser.
 
 ```
 ❯ minikube delete
@@ -34,8 +38,8 @@ Vi trenger ingen spesielle parametre satt for denne øvelsen, så det er rett og
 ```
 ## Øvelser
 
-*  [Installere og starte Argo CD](./01-argocd.md) (omtrent 10 minutter)
-*  [Publisere en applikasjon fra et Git-repo](./02-isig-prod.md) (omtrent 10 minutter)
-*  [Kontinuerlig produksjonssetting med Argo CD](./03-isig-develop.md) (omtrent 15 minutter)
-*  [Samle inn metrikker med Prometheus](./04-argocd-metrics.md) (omtrent 15 minutter)
+1.  [Installere og starte Argo CD](./01-argocd.md) (omtrent 10 minutter)
+2.  [Publisere en applikasjon fra et Git-repo](./02-isig-prod.md) (omtrent 10 minutter)
+3.  [Kontinuerlig produksjonssetting med Argo CD](./03-isig-develop.md) (omtrent 15 minutter)
+4.  [Samle inn metrikker med Prometheus](./04-argocd-metrics.md) (omtrent 15 minutter)
 
