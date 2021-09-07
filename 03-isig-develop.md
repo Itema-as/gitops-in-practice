@@ -1,8 +1,8 @@
 # Kontinuerlig produksjonssetting med Argo CD
 
-## Argo CD Image Updater
+## Installere Argo CD Image Updater
 
-Nå skal vi lage et opplegg hvor vi produksjonssetter kontinuerlig, altså for hver enkelt endring som kommer inn på `master`-greina til *iSig* eller strengt tatt for hver gang et nytt *image* bygget fra dukker opp fra denne greina. Siden Argo CD normalt vil kun oppdatere en applikasjon om der er endringer i Git-repoet som deklarasjonen til applikasjonen ligger – må vi først legge til en ny tjeneste som kan reagere på endringer i et *Docker Container Registry* og fortelle Argo CD at den må oppdatere; [Argo CD Image Updater](https://argocd-image-updater.readthedocs.io/en/latest/install/start/).
+Nå skal vi lage et opplegg hvor vi produksjonssetter kontinuerlig, altså for hver enkelt endring som kommer inn på `master`-greina til *iSig*, eller strengt tatt for hver gang et nytt *image* bygget fra denne greina. Siden Argo CD normalt vil kun oppdatere en applikasjon om der er endringer i Git-repoet som deklarasjonen til applikasjonen ligger – må vi først legge til en ny tjeneste som kan reagere på endringer i et *Docker Container Registry* og fortelle Argo CD at den må oppdatere; [Argo CD Image Updater](https://argocd-image-updater.readthedocs.io/en/latest/install/start/).
 
 ```shell
 kubectl apply -n argocd -f \
@@ -103,6 +103,6 @@ For å demonstrere dette kan man kjøre [CI-workflowen til iSig](https://github.
 
 ---
 
-Hvis du vil kontrollere at iSig faktisk er oppe og kjører kan du utføre `minikube service isig-service-cd`. Denne kommandoen vil gjøre nødvendig nettverksmagi og åpne nettleseren din på riktig adresse. Dog vil den i alle fall på macOS blokkere terminalen ditt slik at du evt. må åpne en ny instans hvis du skal jobbe videre.
+Hvis du vil kontrollere at iSig faktisk er oppe og kjører kan du utføre `minikube service isig-service-cd`. Denne kommandoen vil gjøre nødvendig nettverksmagi og åpne nettleseren din på riktig adresse.
 
 👉 I [neste øvelse](./04-argocd-metrics.md) installerer vi Prometheus og kikker litt på metrikker.

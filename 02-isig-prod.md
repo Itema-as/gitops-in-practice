@@ -4,18 +4,32 @@
 
 ## Deklarering av applikasjonen
 
-I Git-repoet hvor denne øvelsen utvikles ligger en mappe med navn [argocd-applications](./argocd-applications). Den inneholder flere filer som vi ikke vil endre på – men kun gå kort gå i gjennom hva de gjør.
+I Git-repoet hvor denne øvelsen utvikles ligger en mappe med navn [argocd-applications](./argocd-applications). Den inneholder flere filer som vi ikke skal endre på – kun gå kort gå i gjennom hva de gjør.
 
 ```
-. argocd-applications
+argocd-applications
+├── argocd-notifications
+│   ├── _base
+│   │   ├── configmap.yaml
+│   │   ├── deployment.yaml
+│   │   ├── kustomization.yaml
+│   │   ├── role.yaml
+│   │   ├── rolebinding.yaml
+│   │   ├── secret.yaml
+│   │   ├── service-account.yaml
+│   │   ├── service.yaml
+│   │   └── templates.yaml
+│   └── minikube
+│       ├── configmap.yaml
+│       └── kustomization.yaml
 └── isig
     ├── _base
-    │   ├── kustomization.yaml
-    │   └── service.yaml
+    │   ├── kustomization.yaml
+    │   └── service.yaml
     ├── develop
-    │   ├── application.yaml
-    │   ├── deployment.yaml
-    │   └── kustomization.yaml
+    │   ├── application.yaml
+    │   ├── deployment.yaml
+    │   └── kustomization.yaml
     └── prod
         ├── application.yaml
         ├── deployment.yaml
