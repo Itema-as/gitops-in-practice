@@ -24,6 +24,9 @@ Vi skal også hente ut data fra *Argo CD Image Updater* da den har sitt eget met
 
 ```shell
 kubectl get pod -n argocd -o wide | grep image
+```
+
+```shell
 argocd-image-updater-6f8cc599b4-mttx6   1/1     Running   0          42m   172.17.0.15   minikube   <none>           <none>
 ```
 
