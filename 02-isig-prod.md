@@ -114,7 +114,7 @@ kubernetes               ClusterIP   10.96.0.1      <none>        443/TCP    8d
 kustomize-isig-service   ClusterIP   10.111.84.62   <none>        8080/TCP   4s
 ```
 
-Det kan ta noen sekunder for applikasjonen har startet så kjør `kubectl get pods` for å se om status er `Running`. Hvis så er tilfelle kan vi kjøre…
+Det kan ta noen minutter for applikasjonen har startet så kjør `kubectl get pods` for å se om status er `Running`. Hvis så er tilfelle kan vi kjøre…
 
 ```shell
 minikube service isig-service
