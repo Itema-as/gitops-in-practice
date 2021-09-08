@@ -69,7 +69,7 @@ Nå skal vi prøve oss på å visualsere metrikken som *Argo CD Image Updater* e
 
 ```shell
 helm repo add grafana https://grafana.github.io/helm-charts
-helm install grafana stable/grafana
+helm install grafana bitnami/grafana
 kubectl expose service grafana --type=NodePort --target-port=3000 --name=grafana-np
 ```
 
@@ -83,7 +83,7 @@ kubectl --namespace default port-forward $POD_NAME 3000 2>&1 >/dev/null &
 Grafana har gjemt passordet sitt som en *secret*.
 
 ```shell
-kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+kubectl get secret grafana-admin --namespace default -o jsonpath="{.data.GF_SECURITY_ADMIN_PASSWORD}" | base64 --decode ; echo
 ```
 
 Nå kan du åpne Grafana på http://localhost:3000 og logge deg inn med brukernavn "admin" og passordet du hentet ut nettopp.
