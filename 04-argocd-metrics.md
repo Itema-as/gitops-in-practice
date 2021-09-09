@@ -68,7 +68,7 @@ Nå som vi har fått litt data kan vi bruke Prometheus sin spørrefunksjon til �
 Nå skal vi prøve oss på å visualsere metrikken som *Argo CD Image Updater* eksponerer. Først må vi installere Grafana og eksponere porten tjenesten kjører på.
 
 ```shell
-helm repo add grafana https://grafana.github.io/helm-charts
+helm repo add bitnami https://charts.bitnami.com/bitnami
 helm install grafana bitnami/grafana
 kubectl expose service grafana --type=NodePort --target-port=3000 --name=grafana-np
 ```
