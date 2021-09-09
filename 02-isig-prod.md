@@ -4,7 +4,7 @@
 
 ## Deklarering av applikasjonen
 
-I Git-repoet hvor denne øvelsen utvikles ligger en mappe med navn [argocd-applications](./argocd-applications). Den inneholder flere filer som vi ikke skal endre på – kun gå kort gå i gjennom hva de gjør.
+I Git-repoet hvor denne øvelsen utvikles ligger en mappe med navn [argocd-applications](./argocd-applications). Den inneholder flere filer som vi ikke skal endre på – kun gå kort i gjennom hva de gjør.
 
 ```
 argocd-applications
