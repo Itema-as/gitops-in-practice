@@ -51,8 +51,8 @@ Neste jobb er å lage en *secret* ut av det tokenet vi hentet ut tidligere slik 
 
 ```shell
 kubectl create secret generic argocd-image-updater-secret \
-  --from-literal argocd.token=$ARGOCD_TOKEN --dry-run=client -o yaml |
-  kubectl -n argocd apply -f -
+  --from-literal argocd.token=$ARGOCD_TOKEN --dry-run=client -o yaml \
+  | kubectl -n argocd apply -f -
 kubectl -n argocd rollout restart deployment argocd-image-updater
 ```
 
