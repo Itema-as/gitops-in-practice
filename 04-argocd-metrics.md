@@ -97,3 +97,6 @@ Det neste som må gjøres er å legge til den Prometheus-instansen vi nettopp ha
 Nå er vi klare til å lage et *dashboard*. Dette gjør vi ved å gå til **+ > Create > Import** og lime inn [denne koden](https://github.com/Itema-as/gitops-in-practice/blob/main/grafana-dashboard.json) i **Import via panel json** (velg **Raw** format). Nå kan man se hvor ofte et en applikasjon er oppdatert i diagrammet *Image updates (per app)*.
 
 ![](./argocd-image-updater.png)
+
+---
+Copyright © 2021, Torkild U. Resheim, Itema AS

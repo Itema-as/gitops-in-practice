@@ -127,3 +127,6 @@ minikube service isig-service
 Hvis du har litt tid er det nå en god idé å utforske brukergrensenittet til Argo CD. Klarer du å finne loggen til iSig?
 
 👉 I [neste øvelse](./03-isig-develop.md) produksjonssetter vi applikasjonen kontinuerlig for utviklingsmiljøet.
+
+---
+Copyright © 2021, Torkild U. Resheim, Itema AS

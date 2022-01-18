@@ -69,3 +69,5 @@ Har du litt tid kan du nå lese [veiledningen](https://argo-cd.readthedocs.io/en
 
 👉 I [neste øvelse](./02-isig-prod.md) installerer vi en applikasjon ved hjelp av Argo CD.
 
+---
+Copyright © 2021, Torkild U. Resheim, Itema AS

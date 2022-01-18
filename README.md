@@ -43,3 +43,6 @@ Vi trenger ingen spesielle parametre satt for denne øvelsen, så det er rett og
 3.  [Kontinuerlig produksjonssetting med Argo CD](./03-isig-develop.md) (omtrent 15 minutter)
 4.  [Samle inn metrikker med Prometheus](./04-argocd-metrics.md) (omtrent 15 minutter)
 
+
+---
+Copyright © 2021, Torkild U. Resheim, Itema AS
